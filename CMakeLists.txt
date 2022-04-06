@@ -6,8 +6,21 @@ project(${PROJECT_NAME} VERSION 0.0)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
+set(PROJECT_INCLUDES
+	includes/Log.hpp
+	includes/Window.hpp
+	includes/App.hpp
+	)
+	
+set(PROJECT_SOURCES
+	src/main.cpp
+	src/Window.cpp
+	src/App.cpp
+	)
+
 add_executable(${PROJECT_NAME}
-		src/main.cpp
+		${PROJECT_INCLUDES}
+		${PROJECT_SOURCES}
 		)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
@@ -51,13 +64,10 @@ add_library(ImGui STATIC
 	${IMGUI_SOURCES}
 )
 
+target_include_directories(${PROJECT_NAME} PUBLIC includes)
+target_include_directories(${PROJECT_NAME} PUBLIC src)
 target_include_directories(ImGui PUBLIC external)
 target_include_directories(ImGui PUBLIC external/imgui)
-
+target_include_directories(${PROJECT_NAME} PUBLIC external/stb_image)
 target_link_libraries(ImGui PRIVATE glad glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC ImGui)
-
-target_include_directories(${PROJECT_NAME} PUBLIC external/stb_image)
-
-
-
